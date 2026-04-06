@@ -1,0 +1,89 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import DateCalc from '../components/calculators/DateCalc';
+
+const faqs = [
+  { q: 'How do I add days to a date?', a: 'Enter your start date, select "Add Time," type the number of days you want to add, and click Calculate. The result shows the future date along with the number of business days, weeks, and more.' },
+  { q: 'Can I subtract time from a date?', a: 'Yes. Select "Subtract Time" and enter how many years, months, weeks, or days to go back. The calculator handles all the month-length and leap-year logic automatically.' },
+  { q: 'Does the calculator account for leap years?', a: 'Yes. The date calculator uses JavaScript\'s native Date object, which correctly handles leap years, month lengths, and daylight saving time transitions.' },
+  { q: 'What is the difference between calendar days and business days?', a: 'Calendar days count every day including weekends and holidays. Business days count only Monday through Friday, excluding weekends (but not public holidays, which vary by country).' },
+  { q: 'Can I add years and months together?', a: 'Yes. You can combine years, months, weeks, and days in a single calculation. For example, add 1 year, 2 months, and 15 days all at once.' },
+];
+
+const related = [
+  { title: 'Days Between Dates', href: '/days-between-dates/', icon: '📆', description: 'Count days between two dates' },
+  { title: 'Age Calculator', href: '/age-calculator/', icon: '🎂', description: 'Find your exact age in years, months, and days' },
+  { title: 'Business Days Calculator', href: '/business-days-calculator/', icon: '💼', description: 'Add business days, skip weekends' },
+  { title: '90 Days From Today', href: '/days-from/90-days-from-today/', icon: '📅', description: 'What date is 90 days from now?' },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Date Calculator",
+  "url": "https://datecalc.com/date-calculator/",
+  "description": "Free date calculator to add or subtract days, weeks, months, and years from any date. Shows business days, calendar days, and the result weekday.",
+  "applicationCategory": "UtilityApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<CalculatorLayout
+  title="Date Calculator — Add or Subtract Days, Weeks, Months | DateCalc"
+  description="Free date calculator: add or subtract days, weeks, months, or years from any date. Instantly see the result date, weekday, business days, and time conversions."
+  heading="Date Calculator"
+  subheading="Add or subtract any combination of years, months, weeks, and days from any starting date. See the result date, weekday, and business day count instantly."
+  icon="📅"
+  category="Date & Time"
+  faqs={faqs}
+  related={related}
+  schema={schema}
+  tipTitle="Common Use Cases"
+  tipText="Use this calculator for contract deadlines (Net 30/60/90), project timelines, legal notice periods, and subscription renewals."
+>
+  <div slot="calculator">
+    <DateCalc client:load />
+  </div>
+
+  <div slot="content">
+    <h2>How to Use the Date Calculator</h2>
+    <ol>
+      <li><strong>Enter a start date</strong> — defaults to today, but you can pick any date.</li>
+      <li><strong>Choose Add or Subtract</strong> — whether you want a future or past date.</li>
+      <li><strong>Enter the duration</strong> — years, months, weeks, and/or days (combine them freely).</li>
+      <li><strong>Click Calculate</strong> — get the result date, weekday, and business day breakdown.</li>
+    </ol>
+
+    <h2>Date Calculator Formula</h2>
+    <p>The basic formula for adding time to a date is:</p>
+    <div class="formula-box">
+      Result Date = Start Date + (Years × 365) + (Months × 30) + (Weeks × 7) + Days
+    </div>
+    <p>Note: When adding months, the calculator adjusts for the actual number of days in each month and leap years automatically.</p>
+
+    <h2>Common Date Calculations</h2>
+    <table>
+      <thead><tr><th>Duration</th><th>Use Case</th><th>Calendar Days</th></tr></thead>
+      <tbody>
+        <tr><td>7 days</td><td>One week deadline</td><td>7</td></tr>
+        <tr><td>14 days</td><td>Two weeks notice</td><td>14</td></tr>
+        <tr><td>30 days</td><td>Net 30 payment terms</td><td>30</td></tr>
+        <tr><td>60 days</td><td>Net 60 payment terms</td><td>60</td></tr>
+        <tr><td>90 days</td><td>Net 90 / probation period</td><td>90</td></tr>
+        <tr><td>6 months</td><td>Mid-year review</td><td>~183</td></tr>
+        <tr><td>1 year</td><td>Annual renewal</td><td>365 or 366</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Calendar Days vs. Business Days</h2>
+    <p>
+      <strong>Calendar days</strong> count every day of the week, including weekends and holidays. When a contract says "30 days," it typically means 30 calendar days.
+    </p>
+    <p>
+      <strong>Business days</strong> (also called working days) count only Monday through Friday. A "30 business day" deadline is significantly longer than 30 calendar days — approximately 6 weeks.
+    </p>
+    <p>
+      The date calculator shows both. For holiday-aware business day calculations, use the <a href="/business-days-calculator/" class="text-brand-600 hover:underline">Business Days Calculator</a>.
+    </p>
+  </div>
+</CalculatorLayout>

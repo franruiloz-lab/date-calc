@@ -1,0 +1,98 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import MinutesFromResult from '../../components/calculators/MinutesFromResult';
+
+export function getStaticPaths() {
+  const minutes = [5,10,15,20,25,30,45,60,90,120,180];
+  return minutes.map(n => ({
+    params: { slug: `${n}-minutes-from-now` },
+    props: { minutes: n },
+  }));
+}
+
+interface Props { minutes: number; }
+const { minutes } = Astro.props;
+
+function pad(n: number) { return String(n).padStart(2, '0'); }
+
+const now = new Date();
+const result = new Date(now.getTime() + minutes * 60 * 1000);
+const h12 = result.getHours() > 12 ? result.getHours()-12 : result.getHours() || 12;
+const ampm = result.getHours() >= 12 ? 'PM' : 'AM';
+const timeStr = `${h12}:${pad(result.getMinutes())} ${ampm}`;
+
+const hours = Math.floor(minutes / 60);
+const remMins = minutes % 60;
+
+const heading = `${minutes} Minutes From Now`;
+const description = `What time will it be in ${minutes} minutes? Find out the exact time ${minutes} minutes from now. Updated automatically based on your local time.`;
+
+const faqs = [
+  {
+    q: `What time is ${minutes} minutes from now?`,
+    a: `${minutes} minutes from now is approximately ${timeStr}. The exact time updates automatically based on when you load this page.`,
+  },
+  {
+    q: `How many hours is ${minutes} minutes?`,
+    a: hours > 0
+      ? `${minutes} minutes equals ${hours} ${hours === 1 ? 'hour' : 'hours'}${remMins > 0 ? ` and ${remMins} minutes` : ''}.`
+      : `${minutes} minutes is less than one hour.`,
+  },
+  {
+    q: `What does "${minutes} minutes from now" mean?`,
+    a: `"${minutes} minutes from now" means adding ${minutes} minutes to the current time. For example, if it's currently 2:00 PM, then ${minutes} minutes from now would be ${minutes < 60 ? `2:${pad(minutes)} PM` : `${2 + hours}:${pad(remMins)} PM`}.`,
+  },
+];
+
+const related = [
+  { title: `${minutes === 30 ? 15 : 30} Minutes From Now`, href: `/minutes-from/${minutes === 30 ? 15 : 30}-minutes-from-now/`, icon: '⏱️', description: `What time is ${minutes === 30 ? 15 : 30} minutes from now?` },
+  { title: '24 Hours From Now', href: '/hours-from/24-hours-from-now/', icon: '⏰', description: 'What time is 24 hours from now?' },
+  { title: 'Countdown Timer', href: '/countdown-timer/how-long-until-5-00-pm/', icon: '⏱️', description: 'Countdown to a specific time' },
+  { title: 'Date Calculator', href: '/date-calculator/', icon: '📅', description: 'Add or subtract from any date' },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": heading,
+  "url": `https://datecalc.com/minutes-from/${Astro.params.slug}/`,
+  "description": description,
+  "applicationCategory": "UtilityApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<CalculatorLayout
+  title={`${heading} — What Time Will It Be? | DateCalc`}
+  description={description}
+  heading={heading}
+  subheading={`What time will it be in ${minutes} minutes from now? The calculator shows the exact result based on your current local time.`}
+  icon="⏱️"
+  category="Time Calculator"
+  faqs={faqs}
+  related={related}
+  schema={schema}
+  tipTitle="Quick Fact"
+  tipText={`${minutes} minutes = ${hours > 0 ? `${hours}h ${remMins}m` : `${minutes} min`} = ${minutes * 60} seconds.`}
+>
+  <div slot="calculator">
+    <MinutesFromResult client:load minutes={minutes} />
+  </div>
+
+  <div slot="content">
+    <h2>What Time Is {minutes} Minutes From Now?</h2>
+    <p>
+      {minutes} minutes from now is approximately <strong>{timeStr}</strong>. The calculator above updates automatically using your device's local clock, so the result reflects your real current time.
+    </p>
+
+    <h2>Duration Breakdown</h2>
+    <table>
+      <thead><tr><th>Unit</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Minutes</td><td><strong>{minutes}</strong></td></tr>
+        {hours > 0 && <tr><td>Hours + Minutes</td><td><strong>{hours}h {remMins}m</strong></td></tr>}
+        <tr><td>Seconds</td><td><strong>{(minutes * 60).toLocaleString()}</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+</CalculatorLayout>

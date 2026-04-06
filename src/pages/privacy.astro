@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const lastUpdated = 'April 6, 2026';
+const siteUrl = 'https://datecalc.com';
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Privacy Policy — DateCalc",
+    "description": "Privacy policy for DateCalc.com — how we handle your data, what we collect, and your rights under GDPR.",
+    "url": `${siteUrl}/privacy/`,
+    "dateModified": "2026-04-06",
+    "isPartOf": { "@type": "WebSite", "name": "DateCalc", "url": siteUrl },
+    "inLanguage": "en",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
+      { "@type": "ListItem", "position": 2, "name": "Privacy Policy", "item": `${siteUrl}/privacy/` },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Privacy Policy | DateCalc"
+  description="Privacy policy for DateCalc.com — how we handle your data, what information we collect, and your rights under GDPR."
+  schema={schema}
+>
+  <div class="bg-white border-b border-slate-100">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <nav class="flex items-center gap-2 text-sm text-slate-500">
+        <a href="/" class="hover:text-brand-600 transition-colors">Home</a>
+        <span>›</span>
+        <span class="text-navy-900 font-medium">Privacy Policy</span>
+      </nav>
+    </div>
+  </div>
+
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-8">
+      <h1 class="text-3xl font-extrabold text-navy-900 mb-2">Privacy Policy</h1>
+      <p class="text-slate-500 text-sm">Last updated: {lastUpdated}</p>
+    </div>
+
+    <div class="space-y-8 text-slate-700 leading-relaxed">
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">1. Who we are</h2>
+        <p>
+          DateCalc (<strong>datecalc.com</strong>) is a free online date and time calculator tool operated by Francisco Ruiz Lozano, based in Spain.
+          Contact: <a href="mailto:franruizlozano31@gmail.com" class="text-brand-600 hover:underline">franruizlozano31@gmail.com</a>
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">2. What data we collect</h2>
+        <p>
+          DateCalc does <strong>not</strong> collect, store, or process personal data from users. Specifically:
+        </p>
+        <ul class="list-disc pl-6 space-y-1.5 mt-3 text-sm">
+          <li>All calculations (dates, ages, countdowns) are performed entirely in your browser. No input data is sent to our servers.</li>
+          <li>We do not use contact forms, user accounts, or registration systems.</li>
+          <li>We do not display advertising or use advertising networks.</li>
+          <li>We do not sell data to third parties under any circumstances.</li>
+          <li>We do not embed social media widgets that collect data.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">3. Cookies and local storage</h2>
+        <p>
+          DateCalc stores a single item in your browser's <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono">localStorage</code> named <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono">datecalc_cookie_consent</code>.
+          This stores your response to the cookie consent banner ("accepted" or "rejected") so we don't show it again on every visit.
+          This data never leaves your device.
+        </p>
+        <p class="mt-2">
+          If you accept analytics cookies, we may load Google Analytics to collect anonymized usage data (pages visited, time on site). No personally identifiable information is collected.
+          See our full <a href="/cookie-policy/" class="text-brand-600 hover:underline">Cookie Policy</a> for details.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">4. Analytics (Google Analytics)</h2>
+        <p>
+          If you consent to analytics cookies, we use Google Analytics 4 to understand how visitors use DateCalc. The data collected includes:
+        </p>
+        <ul class="list-disc pl-6 space-y-1.5 mt-3 text-sm">
+          <li>Pages visited and time spent</li>
+          <li>Device type, browser, and operating system</li>
+          <li>Country (not city or precise location)</li>
+          <li>Referring website or search query</li>
+        </ul>
+        <p class="mt-3">
+          All data is anonymized. IP addresses are truncated by Google before storage. We never combine analytics data with any personally identifiable information.
+          For more information, see <a href="https://policies.google.com/privacy" class="text-brand-600 hover:underline" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">5. Hosting and infrastructure</h2>
+        <p>
+          DateCalc is a static website. Our site may be hosted on services such as Vercel, Netlify, or GitHub Pages. These providers may collect standard server logs (IP address, browser type, timestamp) as part of their infrastructure operations. This is processed under their own privacy policies, not ours.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">6. Your rights under GDPR</h2>
+        <p>
+          If you are located in the European Economic Area (EEA), you have rights under the General Data Protection Regulation (GDPR):
+        </p>
+        <ul class="list-disc pl-6 space-y-1.5 mt-3 text-sm">
+          <li><strong>Right of access</strong> — You can request a copy of any personal data we hold about you.</li>
+          <li><strong>Right to erasure</strong> — You can request deletion of your personal data.</li>
+          <li><strong>Right to object</strong> — You can object to processing of your personal data.</li>
+          <li><strong>Right to withdraw consent</strong> — You can withdraw cookie consent at any time by clearing your browser's localStorage for this site.</li>
+        </ul>
+        <p class="mt-3">
+          Since DateCalc does not collect personal data, most of these rights have no practical application. However, if you have concerns, contact us at <a href="mailto:franruizlozano31@gmail.com" class="text-brand-600 hover:underline">franruizlozano31@gmail.com</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">7. Children's privacy</h2>
+        <p>
+          DateCalc is not directed at children under 16. We do not knowingly collect data from minors. If you believe a child has provided personal information, please contact us and we will take steps to remove it.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">8. Changes to this policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time. Any changes will be reflected on this page with an updated date at the top. Continued use of the site after changes constitutes acceptance of the updated policy.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">9. Contact</h2>
+        <p>
+          For any questions about this Privacy Policy, contact us at:<br/>
+          <a href="mailto:franruizlozano31@gmail.com" class="text-brand-600 hover:underline font-medium">franruizlozano31@gmail.com</a>
+        </p>
+      </section>
+
+    </div>
+
+    <div class="mt-10 pt-6 border-t border-slate-200 flex gap-4 text-sm">
+      <a href="/" class="text-brand-600 hover:underline">← Back to Home</a>
+      <a href="/cookie-policy/" class="text-brand-600 hover:underline">Cookie Policy →</a>
+    </div>
+  </div>
+</BaseLayout>

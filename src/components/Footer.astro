@@ -1,0 +1,67 @@
+---
+const tools = [
+  { label: 'Date Calculator', href: '/date-calculator/' },
+  { label: 'Days Between Dates', href: '/days-between-dates/' },
+  { label: 'Age Calculator', href: '/age-calculator/' },
+  { label: 'Business Days', href: '/business-days-calculator/' },
+  { label: 'Days Left in Year', href: '/days-left-in-year/' },
+  { label: '28 Days From Today', href: '/days-from/28-days-from-today/' },
+  { label: '90 Days From Today', href: '/days-from/90-days-from-today/' },
+  { label: '72 Hours From Now', href: '/hours-from/72-hours-from-now/' },
+  { label: '30 Minutes From Now', href: '/minutes-from/30-minutes-from-now/' },
+];
+---
+
+<footer class="bg-navy-900 text-slate-400 mt-auto">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <!-- Brand -->
+      <div>
+        <a href="/" class="flex items-center gap-2 mb-3">
+          <div class="w-7 h-7 bg-brand-600 rounded-lg flex items-center justify-center">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <span class="text-white font-extrabold text-base">Date<span class="text-brand-400">Calc</span></span>
+        </a>
+        <p class="text-sm leading-relaxed">
+          Free date and time calculators. Instantly find future dates, countdown timers, days between dates, and more.
+        </p>
+      </div>
+
+      <!-- Tools -->
+      <div>
+        <h3 class="text-white font-semibold text-sm mb-3">Popular Tools</h3>
+        <ul class="space-y-2">
+          {tools.map(t => (
+            <li>
+              <a href={t.href} class="text-sm hover:text-brand-400 transition-colors">{t.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- About -->
+      <div>
+        <h3 class="text-white font-semibold text-sm mb-3">About</h3>
+        <p class="text-sm leading-relaxed mb-3">
+          DateCalc provides accurate, fast date and time calculations. All calculations run in your browser — no data is sent to any server.
+        </p>
+        <p class="text-xs text-slate-500">
+          Results are based on your device's local time and timezone. Always verify critical dates with official sources.
+        </p>
+      </div>
+    </div>
+
+    <div class="border-t border-navy-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p class="text-xs text-slate-500">&copy; {new Date().getFullYear()} DateCalc. All rights reserved.</p>
+      <div class="flex gap-4 text-xs">
+        <a href="/privacy/" class="hover:text-brand-400 transition-colors">Privacy Policy</a>
+        <a href="/terms/" class="hover:text-brand-400 transition-colors">Terms</a>
+        <a href="/#calculators" class="hover:text-brand-400 transition-colors">All Calculators</a>
+      </div>
+    </div>
+  </div>
+</footer>

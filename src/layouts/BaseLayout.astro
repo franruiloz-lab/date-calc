@@ -1,0 +1,84 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  schema?: object | object[];
+}
+
+const { title, description, canonical, ogImage, schema } = Astro.props;
+const siteUrl = 'https://datecalc.com';
+const fullTitle = title.includes('DateCalc') ? title : `${title} | DateCalc`;
+const ogImg = ogImage || `${siteUrl}/og-default.png`;
+const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical || `${siteUrl}${Astro.url.pathname}`} />
+
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImg} />
+    <meta property="og:url" content={canonical || `${siteUrl}${Astro.url.pathname}`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DateCalc" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImg} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "DateCalc",
+      "url": siteUrl,
+      "description": "Free date and time calculators — days from today, countdown timers, age calculator, and more.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": `${siteUrl}/search?q={search_term_string}`,
+        "query-input": "required name=search_term_string"
+      }
+    })} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "DateCalc",
+      "url": siteUrl,
+      "logo": { "@type": "ImageObject", "url": `${siteUrl}/favicon.svg` },
+      "description": "Free date and time calculators for everyone.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "franruizlozano31@gmail.com",
+        "contactType": "customer support"
+      }
+    })} />
+    {schemaItems.map(s => (
+      <script type="application/ld+json" set:html={JSON.stringify(s)} />
+    ))}
+  </head>
+  <body class="bg-slate-50 min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <CookieBanner />
+  </body>
+</html>

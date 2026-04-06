@@ -1,0 +1,36 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+  badge?: string;
+  volume?: string;
+}
+const { title, description, href, icon, badge, volume } = Astro.props;
+---
+
+<a
+  href={href}
+  class="group flex flex-col bg-white border border-slate-200 rounded-xl p-5 hover:border-brand-300 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
+>
+  <div class="flex items-start justify-between mb-3">
+    <span class="text-2xl">{icon}</span>
+    <div class="flex gap-1.5">
+      {badge && (
+        <span class="text-[10px] font-bold uppercase tracking-wide bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full">{badge}</span>
+      )}
+      {volume && (
+        <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{volume}/mo</span>
+      )}
+    </div>
+  </div>
+  <h3 class="font-bold text-navy-900 text-sm group-hover:text-brand-600 transition-colors mb-1.5">{title}</h3>
+  <p class="text-slate-500 text-xs leading-relaxed flex-1">{description}</p>
+  <div class="mt-3 flex items-center gap-1 text-brand-600 text-xs font-semibold">
+    Calculate
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="group-hover:translate-x-0.5 transition-transform">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  </div>
+</a>

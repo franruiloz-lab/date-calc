@@ -1,0 +1,148 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import CountdownTimer from '../../components/calculators/CountdownTimer';
+
+export function getStaticPaths() {
+  const paths: { params: { slug: string }; props: { hour: number; minute: number } }[] = [];
+
+  // Every hour AM (6am - 11am)
+  for (let h = 6; h <= 11; h++) {
+    const ampm = 'am';
+    paths.push({ params: { slug: `how-long-until-${h}-00-${ampm}` }, props: { hour: h, minute: 0 } });
+    paths.push({ params: { slug: `how-long-until-${h}-15-${ampm}` }, props: { hour: h, minute: 15 } });
+    paths.push({ params: { slug: `how-long-until-${h}-30-${ampm}` }, props: { hour: h, minute: 30 } });
+    paths.push({ params: { slug: `how-long-until-${h}-45-${ampm}` }, props: { hour: h, minute: 45 } });
+  }
+
+  // Every hour PM (12pm - 11pm) — 12 = noon, 13–23
+  for (let h = 12; h <= 23; h++) {
+    const ampm = 'pm';
+    const h12 = h === 12 ? 12 : h - 12;
+    paths.push({ params: { slug: `how-long-until-${h12}-00-${ampm}` }, props: { hour: h, minute: 0 } });
+    paths.push({ params: { slug: `how-long-until-${h12}-15-${ampm}` }, props: { hour: h, minute: 15 } });
+    paths.push({ params: { slug: `how-long-until-${h12}-30-${ampm}` }, props: { hour: h, minute: 30 } });
+    paths.push({ params: { slug: `how-long-until-${h12}-45-${ampm}` }, props: { hour: h, minute: 45 } });
+  }
+
+  return paths;
+}
+
+interface Props { hour: number; minute: number; }
+const { hour, minute } = Astro.props;
+
+function pad(n: number) { return String(n).padStart(2, '0'); }
+
+const h12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+const ampm = hour >= 12 ? 'PM' : 'AM';
+const timeLabel = `${h12}:${pad(minute)} ${ampm}`;
+
+const heading = `How Long Until ${timeLabel}?`;
+
+const description = `Find out exactly how long until ${timeLabel} today. Live countdown showing hours, minutes, and seconds remaining until ${timeLabel}. Resets automatically each day.`;
+
+const faqs = [
+  {
+    q: `How long until ${timeLabel}?`,
+    a: `The countdown timer above shows the exact time remaining until ${timeLabel} today. It updates every second automatically. If ${timeLabel} has already passed, the timer shows the time until ${timeLabel} tomorrow.`,
+  },
+  {
+    q: `What time is ${timeLabel}?`,
+    a: `${timeLabel} is ${hour === 0 ? 'midnight' : hour === 12 ? 'noon' : `${h12}:${pad(minute)} in the ${hour < 12 ? 'morning' : 'afternoon or evening'}`}. In 24-hour format, this is ${pad(hour)}:${pad(minute)}.`,
+  },
+  {
+    q: `Can I set an alarm for ${timeLabel}?`,
+    a: `This page does not set device alarms, but you can use your phone or computer clock app to set an alarm for ${timeLabel}. The countdown timer here will show you how long you have to wait.`,
+  },
+  {
+    q: `Does the countdown reset after ${timeLabel}?`,
+    a: `Yes. Once ${timeLabel} has passed, the countdown automatically resets to show the time remaining until ${timeLabel} the following day.`,
+  },
+];
+
+const related = [
+  { title: 'Date Calculator', href: '/date-calculator/', icon: '📅', description: 'Add or subtract days from any date' },
+  { title: 'Days Between Dates', href: '/days-between-dates/', icon: '📆', description: 'Count days between two dates' },
+  { title: 'Days Left in Year', href: '/days-left-in-year/', icon: '🗓️', description: 'Days remaining in the current year' },
+  { title: '28 Days From Today', href: '/days-from/28-days-from-today/', icon: '📅', description: 'What date is 28 days from now?' },
+];
+
+// Pre-compute nearby times for the content section
+const nearbyTimes = [
+  { h: hour - 1, m: minute },
+  { h: hour, m: minute === 0 ? 45 : minute - 15 },
+  { h: hour, m: (minute + 15) % 60 },
+  { h: hour, m: (minute + 30) % 60 },
+  { h: hour + 1, m: minute },
+].filter(({ h }) => h >= 6 && h <= 23 && !(h === hour && Math.abs((h === hour ? 0 : 0)) === 0 && true))
+ .slice(0, 4)
+ .map(({ h, m }) => {
+   const nh12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+   const nampm = h >= 12 ? 'pm' : 'am';
+   const nampmDisplay = h >= 12 ? 'PM' : 'AM';
+   return {
+     href: `/countdown-timer/how-long-until-${nh12}-${pad(m)}-${nampm}/`,
+     label: `${nh12}:${pad(m)} ${nampmDisplay}`,
+   };
+ });
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": heading,
+  "url": `https://datecalc.com/countdown-timer/${Astro.params.slug}/`,
+  "description": description,
+  "applicationCategory": "UtilityApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<CalculatorLayout
+  title={`${heading} Countdown Timer | DateCalc`}
+  description={description}
+  heading={heading}
+  subheading={`Live countdown showing how many hours, minutes, and seconds until ${timeLabel} today. Resets automatically every day.`}
+  icon="⏱️"
+  category="Countdown Timer"
+  faqs={faqs}
+  related={related}
+  schema={schema}
+  tipTitle="About This Timer"
+  tipText={`This countdown uses your device's local time. The timer for ${timeLabel} resets automatically the next day.`}
+>
+  <div slot="calculator">
+    <CountdownTimer
+      client:load
+      targetHour={hour}
+      targetMinute={minute}
+      label={timeLabel}
+    />
+  </div>
+
+  <div slot="content">
+    <h2>How Long Until {timeLabel}?</h2>
+    <p>
+      The live countdown timer above shows exactly how many hours, minutes, and seconds remain until <strong>{timeLabel}</strong> today.
+      The timer updates every second and automatically resets to count down to <strong>{timeLabel} tomorrow</strong> once the time has passed.
+    </p>
+
+    <h2>What Time Is {timeLabel}?</h2>
+    <p>
+      {timeLabel} is {hour === 0 ? 'midnight — the very start of a new day' :
+        hour === 12 && minute === 0 ? 'noon — the middle of the day, when the sun is at its highest point' :
+        hour < 12 ? `${h12}:${pad(minute)} in the morning` :
+        hour < 17 ? `${h12}:${pad(minute)} in the afternoon` :
+        hour < 21 ? `${h12}:${pad(minute)} in the evening` : `${h12}:${pad(minute)} at night`}.
+      In 24-hour (military) time, this is written as <strong>{pad(hour)}:{pad(minute)}</strong>.
+    </p>
+
+    <h2>Nearby Countdown Timers</h2>
+    <p>Looking for a slightly different time? Here are countdown timers for times close to {timeLabel}:</p>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+      {nearbyTimes.map(({ href, label }) => (
+        <a href={href} class="block bg-brand-50 hover:bg-brand-100 border border-brand-100 rounded-lg px-4 py-2.5 text-sm text-brand-700 font-medium text-center transition-colors">
+          {label}
+        </a>
+      ))}
+    </div>
+  </div>
+</CalculatorLayout>

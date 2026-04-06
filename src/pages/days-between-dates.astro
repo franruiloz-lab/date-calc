@@ -1,0 +1,82 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import DaysBetweenCalc from '../components/calculators/DaysBetweenCalc';
+
+const faqs = [
+  { q: 'How do I calculate days between two dates?', a: 'Enter the start date and end date in the calculator above, then click Calculate. The result shows calendar days, business days, weekends, weeks, months, hours, and minutes between the two dates.' },
+  { q: 'Does it matter which date I enter first?', a: 'No. If your end date is before your start date, the calculator will note this and show the absolute difference regardless of order.' },
+  { q: 'How do I calculate business days between two dates?', a: 'The calculator automatically counts business days (Monday–Friday) in addition to calendar days. The result shows both totals side by side.' },
+  { q: 'Can I calculate the number of weeks between two dates?', a: 'Yes. The result includes the number of complete weeks between the two dates, as well as the total in months, hours, and minutes.' },
+  { q: 'Does the calculator count the start date?', a: 'The calculator counts from the morning of the start date to the morning of the end date. For example, from January 1 to January 2 is 1 day.' },
+];
+
+const related = [
+  { title: 'Date Calculator', href: '/date-calculator/', icon: '📅', description: 'Add or subtract time from any date' },
+  { title: 'Age Calculator', href: '/age-calculator/', icon: '🎂', description: 'Calculate exact age from birthdate' },
+  { title: 'Business Days Calculator', href: '/business-days-calculator/', icon: '💼', description: 'Count workdays between dates' },
+  { title: '90 Days From Today', href: '/days-from/90-days-from-today/', icon: '📅', description: 'What date is 90 days from now?' },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Days Between Dates Calculator",
+  "url": "https://datecalc.com/days-between-dates/",
+  "description": "Free calculator to find days, weeks, months, hours, and business days between any two dates.",
+  "applicationCategory": "UtilityApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<CalculatorLayout
+  title="Days Between Dates Calculator — Count Days, Weeks & Business Days | DateCalc"
+  description="Free calculator to count the days between two dates. Shows calendar days, business days, weekends, weeks, months, hours, and minutes. Fast and accurate."
+  heading="Days Between Dates"
+  subheading="Count the exact number of days between any two dates. See the breakdown in calendar days, business days, weeks, months, hours, and minutes."
+  icon="📆"
+  category="Date & Time"
+  faqs={faqs}
+  related={related}
+  schema={schema}
+  tipTitle="Pro Tip"
+  tipText="Need to count only working days? The result includes business days (Mon–Fri) automatically. For deadline tracking use 'business days.'"
+>
+  <div slot="calculator">
+    <DaysBetweenCalc client:load />
+  </div>
+
+  <div slot="content">
+    <h2>How to Calculate Days Between Two Dates</h2>
+    <p>To find the number of days between two dates, subtract the earlier date from the later date. The formula is:</p>
+    <div class="formula-box">Days Between = End Date − Start Date</div>
+    <p>For example, from January 1 to March 31 is 89 days (in a non-leap year).</p>
+
+    <h2>Calendar Days vs. Business Days</h2>
+    <p><strong>Calendar days</strong> include all days: Monday through Sunday. This is the standard way to count days between dates for personal, legal, and most business uses.</p>
+    <p><strong>Business days</strong> count only weekdays (Monday–Friday). Use business days for work deadlines, payment terms, and shipping estimates.</p>
+
+    <h2>Common Use Cases</h2>
+    <ul>
+      <li><strong>Contract deadlines</strong> — Count days remaining before a contract expires</li>
+      <li><strong>Project planning</strong> — Find the duration of a project phase</li>
+      <li><strong>Age verification</strong> — Check how old someone is in days</li>
+      <li><strong>Shipping estimates</strong> — Calculate delivery windows</li>
+      <li><strong>Event planning</strong> — How many days until a wedding, vacation, or deadline</li>
+    </ul>
+
+    <h2>Days in Each Month (Reference)</h2>
+    <table>
+      <thead><tr><th>Month</th><th>Days (Regular Year)</th><th>Days (Leap Year)</th></tr></thead>
+      <tbody>
+        {[
+          ['January', 31, 31], ['February', 28, 29], ['March', 31, 31],
+          ['April', 30, 30], ['May', 31, 31], ['June', 30, 30],
+          ['July', 31, 31], ['August', 31, 31], ['September', 30, 30],
+          ['October', 31, 31], ['November', 30, 30], ['December', 31, 31],
+        ].map(([month, regular, leap]) => (
+          <tr key={month}><td>{month}</td><td>{regular}</td><td>{leap}</td></tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</CalculatorLayout>

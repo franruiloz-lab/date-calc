@@ -1,0 +1,82 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import BusinessDaysCalc from '../components/calculators/BusinessDaysCalc';
+
+const faqs = [
+  { q: 'What counts as a business day?', a: 'A business day is typically Monday through Friday, excluding weekends. This calculator does not exclude public holidays, which vary by country and organization. Always verify holiday exclusions with the relevant party.' },
+  { q: 'How do I add 30 business days to a date?', a: 'Select "Add Business Days," enter your start date, type 30 in the business days field, and click Calculate. The calculator skips weekends automatically.' },
+  { q: 'How many business days are in a month?', a: 'A standard month has approximately 21–23 business days, depending on how weekends align. January 2024, for example, had 23 business days. Use the calculator for the exact count for any period.' },
+  { q: 'What is Net 30 in business days?', a: 'Net 30 typically refers to 30 calendar days, not business days. However, some contracts specify "30 business days," which is roughly 6 calendar weeks. Always check your contract language.' },
+  { q: 'Can I count business days between two dates?', a: 'Yes. Switch to "Days Between Dates" mode, enter your start and end dates, and click Calculate. The result shows the exact number of business days (Monday–Friday) in that period.' },
+];
+
+const related = [
+  { title: 'Date Calculator', href: '/date-calculator/', icon: '📅', description: 'Add calendar days, weeks, months, years' },
+  { title: 'Days Between Dates', href: '/days-between-dates/', icon: '📆', description: 'Count all days between two dates' },
+  { title: '90 Days From Today', href: '/days-from/90-days-from-today/', icon: '📅', description: 'What date is 90 calendar days from now?' },
+  { title: 'Days Left in Year', href: '/days-left-in-year/', icon: '🗓️', description: 'Business days remaining in the year' },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Business Days Calculator",
+  "url": "https://datecalc.com/business-days-calculator/",
+  "description": "Free business days calculator: add working days to a date or count business days between two dates. Automatically skips weekends.",
+  "applicationCategory": "UtilityApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<CalculatorLayout
+  title="Business Days Calculator — Add Workdays or Count Between Dates | DateCalc"
+  description="Free business days calculator. Add working days to any date or count business days between two dates. Automatically skips Saturday and Sunday."
+  heading="Business Days Calculator"
+  subheading="Add business days to a start date or count workdays between two dates. Weekends are skipped automatically. Perfect for Net 30/60/90 deadlines."
+  icon="💼"
+  category="Date & Time"
+  faqs={faqs}
+  related={related}
+  schema={schema}
+  tipTitle="Important Note"
+  tipText="This calculator excludes weekends but NOT public holidays. Always verify holiday exclusions separately for legal or contractual deadlines."
+>
+  <div slot="calculator">
+    <BusinessDaysCalc client:load />
+  </div>
+
+  <div slot="content">
+    <h2>What Are Business Days?</h2>
+    <p>
+      Business days (also called working days or weekdays) are the days of the week when most businesses operate: <strong>Monday through Friday</strong>. Saturdays and Sundays are excluded. Public holidays may also be excluded depending on your country, industry, and contract terms.
+    </p>
+
+    <h2>Business Days vs. Calendar Days</h2>
+    <table>
+      <thead><tr><th>Calendar Days</th><th>Approx. Business Days</th><th>Calendar Weeks</th></tr></thead>
+      <tbody>
+        {[
+          [7, '5', 1],
+          [14, '10', 2],
+          [30, '~22', '~4.3'],
+          [60, '~43', '~8.6'],
+          [90, '~65', '~12.9'],
+          [180, '~130', '~25.7'],
+          [365, '~261', '~52.1'],
+        ].map(([cal, biz, weeks]) => (
+          <tr key={cal}><td>{cal} calendar days</td><td>{biz} business days</td><td>{weeks} weeks</td></tr>
+        ))}
+      </tbody>
+    </table>
+
+    <h2>Common Business Day Applications</h2>
+    <ul>
+      <li><strong>Net 30/60/90</strong> — Invoice payment due date (usually calendar days, check your contract)</li>
+      <li><strong>Contract notice periods</strong> — 10 or 30 business days' notice to terminate</li>
+      <li><strong>Legal deadlines</strong> — Court response deadlines are often in business days</li>
+      <li><strong>Shipping estimates</strong> — "Ships in 3–5 business days"</li>
+      <li><strong>HR timelines</strong> — Onboarding, offer letter acceptance periods</li>
+      <li><strong>Banking</strong> — ACH transfers, wire transfers, check clearing times</li>
+    </ul>
+  </div>
+</CalculatorLayout>

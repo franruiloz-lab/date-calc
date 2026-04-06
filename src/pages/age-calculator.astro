@@ -1,0 +1,92 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import AgeCalc from '../components/calculators/AgeCalc';
+
+const faqs = [
+  { q: 'How do I calculate my exact age?', a: 'Enter your date of birth in the calculator above and click Calculate. The result shows your age in years, months, and days — plus your total days lived, hours, minutes, and next birthday countdown.' },
+  { q: 'Can I calculate age on a specific date (not today)?', a: 'Yes. Use the "Age As Of" field to enter any reference date. This is useful for calculating age at a specific event, like a past birthday or contract date.' },
+  { q: 'How many days old am I?', a: 'The age calculator shows your exact age in total days lived. For example, someone who is 30 years old has lived approximately 10,950 days.' },
+  { q: 'How do I find my next birthday?', a: 'The calculator automatically shows your next birthday, the day of the week it falls on, and how many days away it is.' },
+  { q: 'Does the calculator account for leap years?', a: 'Yes. The age calculator uses exact date arithmetic and correctly handles leap years (February 29 birthdays) when calculating age in days.' },
+];
+
+const related = [
+  { title: 'Days Between Dates', href: '/days-between-dates/', icon: '📆', description: 'Count days between any two dates' },
+  { title: 'Date Calculator', href: '/date-calculator/', icon: '📅', description: 'Add or subtract time from any date' },
+  { title: 'Business Days Calculator', href: '/business-days-calculator/', icon: '💼', description: 'Add business days, skip weekends' },
+  { title: 'Days Left in Year', href: '/days-left-in-year/', icon: '🗓️', description: 'How many days are left in the year?' },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Age Calculator",
+  "url": "https://datecalc.com/age-calculator/",
+  "description": "Free age calculator: find your exact age in years, months, days, hours, and minutes. Includes next birthday countdown.",
+  "applicationCategory": "UtilityApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<CalculatorLayout
+  title="Age Calculator — Find Your Exact Age in Years, Months & Days | DateCalc"
+  description="Free age calculator: find your exact age in years, months, days, hours, and minutes. Includes next birthday countdown and days lived. Enter any birth date."
+  heading="Age Calculator"
+  subheading="Find your exact age in years, months, and days. See your total days and hours lived, and get a countdown to your next birthday."
+  icon="🎂"
+  category="Date & Time"
+  faqs={faqs}
+  related={related}
+  schema={schema}
+  tipTitle="Fun Fact"
+  tipText="The average person lives about 27,375 days. Use this calculator to see exactly where you are on that journey."
+>
+  <div slot="calculator">
+    <AgeCalc client:load />
+  </div>
+
+  <div slot="content">
+    <h2>How to Calculate Your Age</h2>
+    <p>To calculate your exact age, the calculator subtracts your birth date from today's date (or a date you specify). The result accounts for:</p>
+    <ul>
+      <li>The actual number of days in each month</li>
+      <li>Leap years (February has 29 days every 4 years)</li>
+      <li>Whether you've had your birthday yet this year</li>
+    </ul>
+
+    <h2>Age Calculation Formula</h2>
+    <div class="formula-box">
+      Age = Current Date − Birth Date<br/>
+      (accounting for months not yet complete)
+    </div>
+
+    <h2>Age Milestones in Days</h2>
+    <table>
+      <thead><tr><th>Age</th><th>Approx. Days Lived</th><th>Hours Lived</th></tr></thead>
+      <tbody>
+        {[
+          [1, 365, '8,760'],
+          [5, 1825, '43,800'],
+          [10, 3650, '87,600'],
+          [18, 6570, '157,680'],
+          [21, 7665, '183,960'],
+          [30, 10950, '262,800'],
+          [40, 14600, '350,400'],
+          [50, 18250, '438,000'],
+          [60, 21900, '525,600'],
+          [70, 25550, '613,200'],
+        ].map(([age, days, hours]) => (
+          <tr key={age}><td>{age} years</td><td>~{days.toLocaleString()} days</td><td>~{hours} hours</td></tr>
+        ))}
+      </tbody>
+    </table>
+
+    <h2>What Day of the Week Were You Born?</h2>
+    <p>The age calculator shows the day of the week you were born. In Western culture, some believe the day of birth carries significance. Notable patterns:</p>
+    <ul>
+      <li>January 1, 2000 was a <strong>Saturday</strong></li>
+      <li>July 20, 1969 (Moon landing) was a <strong>Sunday</strong></li>
+      <li>December 25 falls on different weekdays each year in a repeating 400-year cycle</li>
+    </ul>
+  </div>
+</CalculatorLayout>

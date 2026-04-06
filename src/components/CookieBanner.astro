@@ -1,0 +1,62 @@
+---
+// GDPR cookie consent banner
+---
+
+<div
+  id="cookie-banner"
+  class="fixed bottom-0 left-0 right-0 z-50 bg-navy-900 border-t-4 border-brand-500 shadow-2xl hidden"
+  role="region"
+  aria-label="Cookie consent"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
+    <div class="flex items-start gap-3">
+      <span class="text-xl flex-shrink-0 mt-0.5">🍪</span>
+      <p class="text-sm text-slate-300 leading-relaxed">
+        We use cookies to improve your experience and analyze traffic. By clicking "Accept All" you consent to our use of analytics cookies.
+        <a href="/cookie-policy/" class="text-brand-400 underline hover:text-brand-300 transition-colors whitespace-nowrap">Cookie Policy</a> ·
+        <a href="/privacy/" class="text-brand-400 underline hover:text-brand-300 transition-colors whitespace-nowrap">Privacy Policy</a>
+      </p>
+    </div>
+    <div class="flex items-center gap-2 shrink-0">
+      <button
+        id="cookie-reject"
+        class="px-4 py-2 text-sm font-medium text-slate-300 border border-slate-600 rounded-lg hover:bg-navy-800 hover:border-slate-500 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500"
+      >
+        Necessary Only
+      </button>
+      <button
+        id="cookie-accept"
+        class="px-4 py-2 text-sm font-medium text-white bg-brand-600 rounded-lg hover:bg-brand-500 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-400"
+      >
+        Accept All
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const STORAGE_KEY = 'datecalc_cookie_consent';
+    const banner = document.getElementById('cookie-banner');
+
+    function hideBanner() {
+      if (banner) banner.classList.add('hidden');
+    }
+
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored && banner) {
+      // Small delay so page renders first
+      setTimeout(() => banner.classList.remove('hidden'), 800);
+    }
+
+    document.getElementById('cookie-accept')?.addEventListener('click', function () {
+      localStorage.setItem(STORAGE_KEY, 'accepted');
+      hideBanner();
+    });
+
+    document.getElementById('cookie-reject')?.addEventListener('click', function () {
+      localStorage.setItem(STORAGE_KEY, 'rejected');
+      hideBanner();
+    });
+  })();
+</script>

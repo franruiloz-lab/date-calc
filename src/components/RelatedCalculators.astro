@@ -1,0 +1,30 @@
+---
+interface RelatedCalc { title: string; href: string; icon: string; description: string; }
+interface Props { items: RelatedCalc[]; }
+const { items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+    <h3 class="font-bold text-navy-900 text-sm mb-3 flex items-center gap-2">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-brand-500">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+      Related Calculators
+    </h3>
+    <div class="space-y-2">
+      {items.map(item => (
+        <a
+          href={item.href}
+          class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-brand-50 transition-colors group"
+        >
+          <span class="text-xl flex-shrink-0">{item.icon}</span>
+          <div class="min-w-0">
+            <div class="font-semibold text-sm text-navy-900 group-hover:text-brand-600 transition-colors truncate">{item.title}</div>
+            <div class="text-xs text-slate-500 truncate">{item.description}</div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+)}

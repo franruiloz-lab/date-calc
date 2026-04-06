@@ -1,0 +1,82 @@
+---
+const navItems = [
+  { label: 'Date Calculator', href: '/date-calculator/' },
+  { label: 'Days Between', href: '/days-between-dates/' },
+  { label: 'Age Calculator', href: '/age-calculator/' },
+  { label: 'Countdown Timer', href: '/countdown-timer/how-long-until-5-00-pm/' },
+  { label: 'All Tools', href: '/#calculators' },
+];
+---
+
+<header class="bg-navy-900 sticky top-0 z-50 border-b border-navy-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2.5 group">
+        <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center group-hover:bg-brand-500 transition-colors">
+          <!-- Clock SVG -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <span class="text-white font-extrabold text-lg tracking-tight">
+          Date<span class="text-brand-400">Calc</span>
+        </span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-1">
+        {navItems.map(item => (
+          <a
+            href={item.href}
+            class="text-slate-300 hover:text-white hover:bg-navy-800 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150"
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- CTA -->
+      <div class="flex items-center gap-3">
+        <a
+          href="/#calculators"
+          class="hidden sm:inline-flex items-center gap-1.5 bg-brand-600 hover:bg-brand-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors duration-150"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          All Calculators
+        </a>
+        <button
+          id="menu-btn"
+          class="md:hidden text-slate-300 hover:text-white p-2 rounded-lg hover:bg-navy-800 transition-colors"
+          aria-label="Open menu"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="md:hidden hidden pb-4 border-t border-navy-800 mt-1 pt-3">
+      {navItems.map(item => (
+        <a
+          href={item.href}
+          class="block text-slate-300 hover:text-white hover:bg-navy-800 px-3 py-2.5 rounded-lg text-sm font-medium transition-all"
+        >
+          {item.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => menu?.classList.toggle('hidden'));
+</script>

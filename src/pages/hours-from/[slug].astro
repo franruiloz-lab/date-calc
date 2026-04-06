@@ -1,0 +1,114 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import HoursFromResult from '../../components/calculators/HoursFromResult';
+
+export function getStaticPaths() {
+  const hours = [1,2,3,4,5,6,8,10,12,15,16,18,20,24,36,48,72,96,120];
+  return hours.map(n => ({
+    params: { slug: `${n}-hours-from-now` },
+    props: { hours: n },
+  }));
+}
+
+interface Props { hours: number; }
+const { hours } = Astro.props;
+
+const WEEKDAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function pad(n: number) { return String(n).padStart(2, '0'); }
+
+const now = new Date();
+const result = new Date(now.getTime() + hours * 60 * 60 * 1000);
+const days = Math.floor(hours / 24);
+const remHours = hours % 24;
+const minutes = hours * 60;
+const weeks = Math.floor(days / 7);
+
+const timeStr = `${result.getHours() > 12 ? result.getHours()-12 : result.getHours() || 12}:${pad(result.getMinutes())} ${result.getHours() >= 12 ? 'PM' : 'AM'}`;
+const dateStr = `${WEEKDAYS[result.getDay()]}, ${MONTHS[result.getMonth()]} ${result.getDate()}, ${result.getFullYear()}`;
+
+const heading = `${hours} Hours From Now`;
+const description = `What time is ${hours} hours from now? Find out the exact date and time ${hours} hours from now. See the breakdown in days, minutes, and seconds.`;
+
+const faqs = [
+  {
+    q: `What time is ${hours} hours from now?`,
+    a: `${hours} hours from now is approximately ${timeStr} on ${dateStr}. The exact time depends on when you load this page, as the calculation uses your current local time.`,
+  },
+  {
+    q: `How many days is ${hours} hours?`,
+    a: `${hours} hours equals ${days} ${days === 1 ? 'day' : 'days'}${remHours > 0 ? ` and ${remHours} ${remHours === 1 ? 'hour' : 'hours'}` : ''}.`,
+  },
+  {
+    q: `How many minutes is ${hours} hours?`,
+    a: `${hours} hours equals ${minutes.toLocaleString()} minutes.`,
+  },
+];
+
+const related = [
+  { title: 'Date Calculator', href: '/date-calculator/', icon: '📅', description: 'Add days, months, or years to any date' },
+  { title: 'Days Between Dates', href: '/days-between-dates/', icon: '📆', description: 'Count days between two dates' },
+  { title: `${hours === 72 ? 48 : 72} Hours From Now`, href: `/hours-from/${hours === 72 ? 48 : 72}-hours-from-now/`, icon: '⏰', description: `What time is ${hours === 72 ? 48 : 72} hours from now?` },
+  { title: '30 Minutes From Now', href: '/minutes-from/30-minutes-from-now/', icon: '⏱️', description: 'What time is 30 minutes from now?' },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": heading,
+  "url": `https://datecalc.com/hours-from/${Astro.params.slug}/`,
+  "description": description,
+  "applicationCategory": "UtilityApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<CalculatorLayout
+  title={`${heading} — Exact Date & Time | DateCalc`}
+  description={description}
+  heading={heading}
+  subheading={`What date and time will it be ${hours} hours from now? The calculator below shows the exact result based on your current local time.`}
+  icon="⏰"
+  category="Time Calculator"
+  faqs={faqs}
+  related={related}
+  schema={schema}
+  tipTitle="Did You Know?"
+  tipText={`${hours} hours = ${days} days${remHours > 0 ? ` + ${remHours} hours` : ''} = ${minutes.toLocaleString()} minutes.`}
+>
+  <div slot="calculator">
+    <HoursFromResult client:load hours={hours} />
+  </div>
+
+  <div slot="content">
+    <h2>What Time Is {hours} Hours From Now?</h2>
+    <p>
+      {hours} hours from now is approximately <strong>{timeStr}</strong> on <strong>{dateStr}</strong>.
+      The exact result depends on your current local time — the calculator above recalculates automatically using your device's clock.
+    </p>
+
+    <h2>Duration Breakdown</h2>
+    <table>
+      <thead><tr><th>Unit</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Hours</td><td><strong>{hours}</strong></td></tr>
+        <tr><td>Days + Hours</td><td><strong>{days} days{remHours > 0 ? ` + ${remHours} hours` : ''}</strong></td></tr>
+        {weeks > 0 && <tr><td>Weeks + Days</td><td><strong>{weeks} weeks{days % 7 > 0 ? ` + ${days % 7} days` : ''}</strong></td></tr>}
+        <tr><td>Minutes</td><td><strong>{minutes.toLocaleString()}</strong></td></tr>
+        <tr><td>Seconds</td><td><strong>{(hours * 3600).toLocaleString()}</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h2>How to Calculate {hours} Hours From Now</h2>
+    <p>
+      To find the time {hours} hours from now, take your current time and add {hours} hours.
+      Since there are 24 hours in a day, {hours} hours equals {days} {days === 1 ? 'day' : 'days'}{remHours > 0 ? ` and ${remHours} ${remHours === 1 ? 'hour' : 'hours'}` : ''}.
+    </p>
+    {days > 0 && (
+      <p>
+        In practical terms, <strong>{hours} hours from now lands {days === 1 ? 'tomorrow' : days === 2 ? 'the day after tomorrow' : `${days} days from today`}</strong> at approximately the same time of day{remHours !== 0 ? `, plus ${remHours} hours` : ''}.
+      </p>
+    )}
+  </div>
+</CalculatorLayout>

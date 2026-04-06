@@ -1,0 +1,244 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import DaysFromResult from '../../components/calculators/DaysFromResult';
+
+// ────────────────────────────────────────────────
+// Static paths configuration
+// ────────────────────────────────────────────────
+export function getStaticPaths() {
+  const futures = [1,2,3,5,7,10,14,21,28,30,45,60,90,120,180,365];
+  const pasts   = [1,2,3,5,7,10,14,21,28,30,45,60,90,120,180,365];
+
+  const paths = [
+    ...futures.map(n => ({
+      params: { slug: `${n}-days-from-today` },
+      props: { days: n, direction: 'future' as const },
+    })),
+    ...pasts.map(n => ({
+      params: { slug: `${n}-days-ago-from-today` },
+      props: { days: n, direction: 'past' as const },
+    })),
+    ...pasts.map(n => ({
+      params: { slug: `${n}-days-ago` },
+      props: { days: n, direction: 'past' as const },
+    })),
+  ];
+  return paths;
+}
+
+interface Props { days: number; direction: 'future' | 'past'; }
+const { days, direction } = Astro.props;
+
+// ────────────────────────────────────────────────
+// Date computation (server-side for SSG)
+// ────────────────────────────────────────────────
+// Note: SSG dates are build-time. The React component recalculates client-side.
+const WEEKDAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function computeResult(n: number, dir: 'future' | 'past') {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const result = new Date(today);
+  result.setDate(result.getDate() + (dir === 'future' ? n : -n));
+
+  const weeks   = Math.floor(n / 7);
+  const remDays = n % 7;
+
+  // Business days count
+  let businessDays = 0;
+  const cur = new Date(dir === 'future' ? today : result);
+  const end = dir === 'future' ? result : today;
+  cur.setDate(cur.getDate() + 1);
+  while (cur <= end) {
+    const d = cur.getDay();
+    if (d !== 0 && d !== 6) businessDays++;
+    cur.setDate(cur.getDate() + 1);
+  }
+
+  return {
+    date: result,
+    weekday: WEEKDAYS[result.getDay()],
+    month: MONTHS[result.getMonth()],
+    day: result.getDate(),
+    year: result.getFullYear(),
+    weeks,
+    remDays,
+    businessDays,
+    hours: n * 24,
+    minutes: n * 24 * 60,
+    seconds: n * 24 * 60 * 60,
+    isWeekend: result.getDay() === 0 || result.getDay() === 6,
+    todayStr: `${MONTHS[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`,
+  };
+}
+
+const r = computeResult(days, direction);
+const isFuture = direction === 'future';
+
+const heading = isFuture
+  ? `${days} Days From Today`
+  : `${days} Days Ago From Today`;
+
+const resultDateStr = `${r.weekday}, ${r.month} ${r.day}, ${r.year}`;
+
+const description = isFuture
+  ? `What date is ${days} days from today? The answer is ${resultDateStr}. Use our calculator to find any future date and convert days to weeks, hours, and minutes.`
+  : `What date was ${days} days ago? The answer is ${resultDateStr}. Find any past date and see the breakdown in weeks, hours, and minutes.`;
+
+const faqs = isFuture ? [
+  {
+    q: `What date is ${days} days from today?`,
+    a: `${days} days from today is ${resultDateStr}. This is calculated by adding ${days} calendar days to today's date.`,
+  },
+  {
+    q: `How many weeks is ${days} days?`,
+    a: `${days} days equals ${r.weeks} ${r.weeks === 1 ? 'week' : 'weeks'}${r.remDays > 0 ? ` and ${r.remDays} ${r.remDays === 1 ? 'day' : 'days'}` : ''}.`,
+  },
+  {
+    q: `How many business days is ${days} days from today?`,
+    a: `There are ${r.businessDays} business days (Monday–Friday, excluding weekends) between today and ${resultDateStr}. The total of ${days} calendar days includes weekends.`,
+  },
+  {
+    q: `Is ${days} days from today a weekend?`,
+    a: r.isWeekend
+      ? `Yes, ${resultDateStr} falls on a ${r.weekday}, which is a weekend.`
+      : `No, ${resultDateStr} falls on a ${r.weekday}, which is a weekday.`,
+  },
+  {
+    q: `How do I calculate ${days} days from today?`,
+    a: `To calculate ${days} days from today, take today's date (${r.todayStr}) and count forward ${days} calendar days. You can also use a date calculator to avoid counting manually.`,
+  },
+] : [
+  {
+    q: `What date was ${days} days ago?`,
+    a: `${days} days ago was ${resultDateStr}. This is calculated by subtracting ${days} calendar days from today's date.`,
+  },
+  {
+    q: `How many weeks ago was ${days} days ago?`,
+    a: `${days} days ago equals ${r.weeks} ${r.weeks === 1 ? 'week' : 'weeks'}${r.remDays > 0 ? ` and ${r.remDays} ${r.remDays === 1 ? 'day' : 'days'}` : ''} ago.`,
+  },
+  {
+    q: `How many business days ago was ${days} days?`,
+    a: `There were ${r.businessDays} business days in the ${days}-day period ending today. The remaining days were weekends.`,
+  },
+];
+
+const related = [
+  { title: 'Date Calculator', href: '/date-calculator/', icon: '📅', description: 'Add or subtract any duration from a date' },
+  { title: 'Days Between Dates', href: '/days-between-dates/', icon: '📆', description: 'Count days between any two dates' },
+  { title: 'Business Days Calculator', href: '/business-days-calculator/', icon: '💼', description: 'Add business days, skip weekends' },
+  { title: `${days === 90 ? 28 : 90} Days From Today`, href: `/days-from/${days === 90 ? 28 : 90}-days-from-today/`, icon: '📅', description: `What date is ${days === 90 ? 28 : 90} days from now?` },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": heading,
+  "url": `https://datecalc.com/days-from/${Astro.params.slug}/`,
+  "description": description,
+  "applicationCategory": "UtilityApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<CalculatorLayout
+  title={`${heading} — What Date Is It? | DateCalc`}
+  description={description}
+  heading={heading}
+  subheading={isFuture
+    ? `What date will it be ${days} days from today? The answer is ${resultDateStr}. See the full breakdown below.`
+    : `What date was ${days} days ago? The answer is ${resultDateStr}. See the full breakdown below.`}
+  icon={isFuture ? '📅' : '🕰️'}
+  category="Date Calculator"
+  faqs={faqs}
+  related={related}
+  schema={schema}
+  tipTitle="Pro Tip"
+  tipText={isFuture
+    ? `${days} days = ${r.weeks} weeks${r.remDays > 0 ? ` + ${r.remDays} days` : ''}. There are ${r.businessDays} business days in this period.`
+    : `${days} days = ${r.weeks} weeks${r.remDays > 0 ? ` + ${r.remDays} days` : ''}.`}
+>
+  <div slot="calculator">
+    <DaysFromResult
+      client:load
+      days={days}
+      direction={direction}
+    />
+  </div>
+
+  <div slot="content">
+    <h2>{isFuture ? `What Date Is ${days} Days From Today?` : `What Date Was ${days} Days Ago?`}</h2>
+    <p>
+      {isFuture
+        ? `${days} days from today is <strong>${resultDateStr}</strong>. This date is calculated by adding exactly ${days} calendar days to today's date.`
+        : `${days} days ago was <strong>${resultDateStr}</strong>. This is calculated by subtracting exactly ${days} calendar days from today's date.`}
+      {r.isWeekend ? ` Note that this date falls on a <strong>${r.weekday}</strong>, which is a weekend.` : ` This falls on a <strong>${r.weekday}</strong>, a weekday.`}
+    </p>
+
+    <h2>Duration Breakdown</h2>
+    <table>
+      <thead><tr><th>Unit</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Calendar Days</td><td><strong>{days}</strong></td></tr>
+        <tr><td>Weeks</td><td><strong>{r.weeks} weeks{r.remDays > 0 ? ` + ${r.remDays} days` : ''}</strong></td></tr>
+        <tr><td>Business Days</td><td><strong>{r.businessDays}</strong></td></tr>
+        <tr><td>Weekend Days</td><td><strong>{days - r.businessDays}</strong></td></tr>
+        <tr><td>Hours</td><td><strong>{r.hours.toLocaleString()}</strong></td></tr>
+        <tr><td>Minutes</td><td><strong>{r.minutes.toLocaleString()}</strong></td></tr>
+        <tr><td>Seconds</td><td><strong>{r.seconds.toLocaleString()}</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h2>How to Calculate {isFuture ? `${days} Days From Today` : `${days} Days Ago`}</h2>
+    <p>
+      To calculate {isFuture ? 'a future' : 'a past'} date {days} days {isFuture ? 'from' : 'before'} today, follow these steps:
+    </p>
+    <ol>
+      <li>Start with today's date: <strong>{r.todayStr}</strong></li>
+      <li>{isFuture ? 'Count forward' : 'Count backward'} {days} calendar days</li>
+      <li>The result is <strong>{resultDateStr}</strong></li>
+    </ol>
+    <p>
+      Alternatively, divide {days} by 7 to get {r.weeks} full weeks{r.remDays > 0 ? ` and ${r.remDays} extra days` : ''}. This can be easier to visualize on a calendar.
+    </p>
+
+    {isFuture && (
+      <>
+        <h2>Common Uses for {days}-Day Deadlines</h2>
+        <ul>
+          {days === 30 && <><li>Invoice payment terms (Net 30)</li><li>Subscription trial periods</li><li>Return and refund windows</li></>}
+          {days === 60 && <><li>Invoice payment terms (Net 60)</li><li>Extended return policies</li><li>Project milestone deadlines</li></>}
+          {days === 90 && <><li>Invoice payment terms (Net 90)</li><li>Quarterly business reviews</li><li>Probationary periods at new jobs</li><li>Regulatory deadlines</li></>}
+          {days === 28 && <><li>4-week project sprints</li><li>Monthly billing cycles (28-day months)</li><li>Legal notice periods</li></>}
+          {days === 14 && <><li>Two-week notice at work</li><li>Biweekly pay period</li><li>Return policy windows</li></>}
+          {days === 7 && <><li>One-week deadlines</li><li>Weekly project goals</li><li>Short-term planning</li></>}
+          {![7,14,28,30,60,90].includes(days) && <><li>Project planning and deadline tracking</li><li>Legal and contractual deadlines</li><li>Personal goal setting</li></>}
+        </ul>
+      </>
+    )}
+
+    <h2>Reference Table: {isFuture ? `${days} Days From` : `${days} Days Before`} Common Dates</h2>
+    <p>The table below shows what date {days} days {isFuture ? 'after' : 'before'} various start dates.</p>
+    <table>
+      <thead><tr><th>Start Date</th><th>{isFuture ? `+${days} Days` : `−${days} Days`}</th><th>Day of Week</th></tr></thead>
+      <tbody>
+        {Array.from({ length: 6 }, (_, i) => {
+          const startOffset = (i - 2) * 30;
+          const start = new Date();
+          start.setDate(start.getDate() + startOffset);
+          start.setHours(0,0,0,0);
+          const end = new Date(start);
+          end.setDate(end.getDate() + (isFuture ? days : -days));
+          return (
+            <tr key={i}>
+              <td>{MONTHS[start.getMonth()]} {start.getDate()}, {start.getFullYear()}</td>
+              <td><strong>{MONTHS[end.getMonth()]} {end.getDate()}, {end.getFullYear()}</strong></td>
+              <td>{WEEKDAYS[end.getDay()]}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+</CalculatorLayout>

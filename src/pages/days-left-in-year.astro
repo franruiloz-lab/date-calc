@@ -1,0 +1,84 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import DaysLeftCalc from '../components/calculators/DaysLeftCalc';
+
+const year = new Date().getFullYear();
+const isLeap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+const totalDays = isLeap ? 366 : 365;
+const dayOfYear = Math.ceil((new Date().getTime() - new Date(year, 0, 1).getTime()) / (1000 * 60 * 60 * 24)) + 1;
+const daysLeft = totalDays - dayOfYear + 1;
+const weeksLeft = Math.floor(daysLeft / 7);
+
+const faqs = [
+  { q: `How many days are left in ${year}?`, a: `There are approximately ${daysLeft} days left in ${year} as of today. This number decreases by one each day. Use the live tracker above for the current count.` },
+  { q: `How many weeks are left in ${year}?`, a: `There are approximately ${weeksLeft} full weeks remaining in ${year}. The counter updates daily.` },
+  { q: `Is ${year} a leap year?`, a: isLeap ? `Yes, ${year} is a leap year. It has 366 days, with February 29 included.` : `No, ${year} is not a leap year. It has 365 days.` },
+  { q: 'What day of the year is today?', a: `Today is day ${dayOfYear} of ${totalDays} in ${year}. The counter at the top shows the current progress through the year.` },
+  { q: 'How many business days are left in the year?', a: 'The calculator shows business days (Monday–Friday) remaining in the year. This count excludes weekends but not public holidays.' },
+];
+
+const related = [
+  { title: 'Date Calculator', href: '/date-calculator/', icon: '📅', description: 'Add or subtract from any date' },
+  { title: 'Days Between Dates', href: '/days-between-dates/', icon: '📆', description: 'Count days between two dates' },
+  { title: 'Business Days Calculator', href: '/business-days-calculator/', icon: '💼', description: 'Add workdays to a date' },
+  { title: '90 Days From Today', href: '/days-from/90-days-from-today/', icon: '📅', description: 'What date is 90 days from now?' },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": `Days Left in ${year}`,
+  "url": "https://datecalc.com/days-left-in-year/",
+  "description": `Live tracker showing days, weeks, and business days remaining in ${year}. Updates automatically.`,
+  "applicationCategory": "UtilityApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<CalculatorLayout
+  title={`Days Left in ${year} — Live Countdown | DateCalc`}
+  description={`How many days are left in ${year}? Live tracker showing days, weeks, weekdays, and weekend days remaining. Updates automatically. Currently ~${daysLeft} days remaining.`}
+  heading={`Days Left in ${year}`}
+  subheading={`Live tracker: ${daysLeft} days remaining in ${year}. See weeks left, business days left, and a month-by-month breakdown. Updates automatically.`}
+  icon="🗓️"
+  category="Date & Time"
+  faqs={faqs}
+  related={related}
+  schema={schema}
+  tipTitle="Planning Tip"
+  tipText="With ${weeksLeft} weeks left, there are about ${weeksLeft * 5} remaining business days to hit your annual goals."
+>
+  <div slot="calculator">
+    <DaysLeftCalc client:load />
+  </div>
+
+  <div slot="content">
+    <h2>How Many Days Are Left in {year}?</h2>
+    <p>
+      As of today, there are approximately <strong>{daysLeft} days left in {year}</strong>. The live counter above updates automatically every minute, so you always see the current count.
+      {year} {isLeap ? 'is a leap year' : 'is not a leap year'}, giving it <strong>{totalDays} total days</strong>.
+    </p>
+
+    <h2>What Day of the Year Is Today?</h2>
+    <p>
+      Today is <strong>day {dayOfYear} of {totalDays}</strong> in {year}. The year is {((dayOfYear / totalDays) * 100).toFixed(1)}% complete.
+    </p>
+
+    <h2>Weeks Left in {year}</h2>
+    <p>
+      There are approximately <strong>{weeksLeft} full weeks</strong> remaining in {year}. If you're working on weekly goals or sprints, this is the number of full iterations you have left.
+    </p>
+
+    <h2>Annual Planning Reference</h2>
+    <table>
+      <thead><tr><th>Metric</th><th>Value for {year}</th></tr></thead>
+      <tbody>
+        <tr><td>Total days in year</td><td><strong>{totalDays}</strong></td></tr>
+        <tr><td>Day number today</td><td><strong>{dayOfYear}</strong></td></tr>
+        <tr><td>Days remaining</td><td><strong>~{daysLeft}</strong></td></tr>
+        <tr><td>Weeks remaining</td><td><strong>~{weeksLeft}</strong></td></tr>
+        <tr><td>Is leap year?</td><td><strong>{isLeap ? 'Yes' : 'No'}</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+</CalculatorLayout>

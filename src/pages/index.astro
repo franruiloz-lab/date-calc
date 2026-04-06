@@ -1,0 +1,198 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CalculatorCard from '../components/CalculatorCard.astro';
+
+const calcGroups = [
+  {
+    label: '📅 Date Calculators',
+    description: 'Add, subtract, and compare dates with precision.',
+    items: [
+      { title: 'Date Calculator', description: 'Add or subtract years, months, weeks, and days from any date. Shows result weekday and business days.', href: '/date-calculator/', icon: '📅', volume: '180K', badge: 'Most Popular' },
+      { title: 'Days Between Dates', description: 'Count calendar days, business days, weeks, months, and hours between any two dates.', href: '/days-between-dates/', icon: '📆', volume: '74K' },
+      { title: 'Age Calculator', description: 'Find your exact age in years, months, and days. Includes next birthday countdown.', href: '/age-calculator/', icon: '🎂', volume: '120K' },
+      { title: 'Business Days Calculator', description: 'Add business days to a date or count workdays between two dates. Skips weekends automatically.', href: '/business-days-calculator/', icon: '💼', volume: '40K' },
+      { title: 'Days Left in Year', description: 'Live tracker: days, weeks, and business days remaining in the current year.', href: '/days-left-in-year/', icon: '🗓️', volume: '69K' },
+    ],
+  },
+  {
+    label: '⏰ Days From Today',
+    description: 'Find what date it will be in X days — or what date it was X days ago.',
+    items: [
+      { title: '7 Days From Today', description: 'What date is exactly one week from today?', href: '/days-from/7-days-from-today/', icon: '📅' },
+      { title: '14 Days From Today', description: 'What date is two weeks from today?', href: '/days-from/14-days-from-today/', icon: '📅' },
+      { title: '28 Days From Today', description: 'What date is 28 days (4 weeks) from today?', href: '/days-from/28-days-from-today/', icon: '📅', volume: '106K', badge: 'Top Search' },
+      { title: '30 Days From Today', description: 'What date is 30 days from today? Common for Net 30 deadlines.', href: '/days-from/30-days-from-today/', icon: '📅', volume: '46K' },
+      { title: '60 Days From Today', description: 'What date is 60 days from today? Common for Net 60 payment terms.', href: '/days-from/60-days-from-today/', icon: '📅', volume: '22K' },
+      { title: '90 Days From Today', description: 'What date is 90 days from today? Used for Net 90 and legal deadlines.', href: '/days-from/90-days-from-today/', icon: '📅', volume: '31K' },
+      { title: '180 Days From Today', description: 'What date is 180 days (6 months) from today?', href: '/days-from/180-days-from-today/', icon: '📅' },
+      { title: '30 Days Ago', description: 'What date was exactly 30 days ago from today?', href: '/days-from/30-days-ago-from-today/', icon: '🕰️', volume: '18K' },
+      { title: '90 Days Ago', description: 'What date was exactly 90 days ago from today?', href: '/days-from/90-days-ago-from-today/', icon: '🕰️', volume: '31K' },
+    ],
+  },
+  {
+    label: '⏱️ Hours & Minutes From Now',
+    description: 'Find the exact date and time X hours or minutes from now.',
+    items: [
+      { title: '12 Hours From Now', description: 'What time will it be in 12 hours?', href: '/hours-from/12-hours-from-now/', icon: '⏰', volume: '8.4K' },
+      { title: '24 Hours From Now', description: 'What time will it be in exactly 24 hours?', href: '/hours-from/24-hours-from-now/', icon: '⏰' },
+      { title: '48 Hours From Now', description: 'What time will it be in 48 hours (2 days)?', href: '/hours-from/48-hours-from-now/', icon: '⏰', volume: '8.8K' },
+      { title: '72 Hours From Now', description: 'What time will it be in 72 hours (3 days)?', href: '/hours-from/72-hours-from-now/', icon: '⏰', volume: '18K', badge: 'Popular' },
+      { title: '96 Hours From Now', description: 'What time will it be in 96 hours (4 days)?', href: '/hours-from/96-hours-from-now/', icon: '⏰' },
+      { title: '15 Minutes From Now', description: 'What time will it be in 15 minutes?', href: '/minutes-from/15-minutes-from-now/', icon: '⏱️' },
+      { title: '30 Minutes From Now', description: 'What time will it be in 30 minutes?', href: '/minutes-from/30-minutes-from-now/', icon: '⏱️', volume: '26K', badge: 'Popular' },
+      { title: '45 Minutes From Now', description: 'What time will it be in 45 minutes?', href: '/minutes-from/45-minutes-from-now/', icon: '⏱️' },
+      { title: '60 Minutes From Now', description: 'What time will it be in 60 minutes (1 hour)?', href: '/minutes-from/60-minutes-from-now/', icon: '⏱️' },
+    ],
+  },
+  {
+    label: '🔔 Countdown Timers',
+    description: 'Live countdowns showing how long until a specific time today.',
+    items: [
+      { title: 'How Long Until 12:00 PM?', description: 'Countdown to noon today. Updates every second.', href: '/countdown-timer/how-long-until-12-00-pm/', icon: '⏱️', volume: '6.2K' },
+      { title: 'How Long Until 2:30 PM?', description: 'Live countdown to 2:30 PM today.', href: '/countdown-timer/how-long-until-2-30-pm/', icon: '⏱️', volume: '20K', badge: 'Popular' },
+      { title: 'How Long Until 3:00 PM?', description: 'Live countdown to 3:00 PM today.', href: '/countdown-timer/how-long-until-3-00-pm/', icon: '⏱️', volume: '12K', badge: 'Top' },
+      { title: 'How Long Until 3:15 PM?', description: 'Live countdown to 3:15 PM today.', href: '/countdown-timer/how-long-until-3-15-pm/', icon: '⏱️', volume: '17K' },
+      { title: 'How Long Until 3:30 PM?', description: 'Live countdown to 3:30 PM today.', href: '/countdown-timer/how-long-until-3-30-pm/', icon: '⏱️', volume: '14K', badge: 'Popular' },
+      { title: 'How Long Until 4:00 PM?', description: 'Live countdown to 4:00 PM today.', href: '/countdown-timer/how-long-until-4-00-pm/', icon: '⏱️', volume: '10K' },
+      { title: 'How Long Until 5:00 PM?', description: 'Live countdown to 5:00 PM (end of workday).', href: '/countdown-timer/how-long-until-5-00-pm/', icon: '⏱️', badge: 'Popular' },
+      { title: 'How Long Until 6:00 PM?', description: 'Live countdown to 6:00 PM today.', href: '/countdown-timer/how-long-until-6-00-pm/', icon: '⏱️' },
+      { title: 'How Long Until 8:00 PM?', description: 'Live countdown to 8:00 PM today.', href: '/countdown-timer/how-long-until-8-00-pm/', icon: '⏱️' },
+    ],
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "DateCalc — Free Date & Time Calculators",
+  "description": "Free date and time calculators: days from today, countdown timers, age calculator, business days, and more. Fast and accurate.",
+  "url": "https://datecalc.com/",
+};
+---
+
+<BaseLayout
+  title="DateCalc — Free Date & Time Calculators"
+  description="Free date and time calculators: days from today, hours from now, countdown timers, age calculator, business days, and more. Instant results."
+  schema={schema}
+>
+  <!-- Hero -->
+  <section class="bg-navy-900 relative overflow-hidden">
+    <!-- Clock grid background -->
+    <div class="absolute inset-0 bg-clock-grid bg-clock-grid opacity-100 pointer-events-none" />
+    <!-- Decorative clock -->
+    <div class="absolute right-8 top-8 opacity-5 hidden lg:block">
+      <svg width="280" height="280" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="1.5">
+        <circle cx="50" cy="50" r="48"/>
+        <circle cx="50" cy="50" r="2" fill="white"/>
+        {[0,30,60,90,120,150,180,210,240,270,300,330].map((deg, i) => {
+          const rad = (deg - 90) * Math.PI / 180;
+          const r1 = i % 3 === 0 ? 38 : 41;
+          const r2 = 45;
+          return (
+            <line key={deg}
+              x1={50 + r1 * Math.cos(rad)} y1={50 + r1 * Math.sin(rad)}
+              x2={50 + r2 * Math.cos(rad)} y2={50 + r2 * Math.sin(rad)}
+              stroke-width={i % 3 === 0 ? 2 : 1}
+            />
+          );
+        })}
+        <line x1="50" y1="50" x2="50" y2="20" stroke-width="2" stroke-linecap="round"/>
+        <line x1="50" y1="50" x2="68" y2="50" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
+      <div class="max-w-2xl">
+        <div class="inline-flex items-center gap-2 bg-brand-600/20 border border-brand-500/30 text-brand-300 text-xs font-semibold uppercase tracking-widest px-3 py-1.5 rounded-full mb-5">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          Free · Instant · No signup required
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-white leading-tight mb-4">
+          Date & Time<br/>
+          <span class="text-brand-400">Calculators</span>
+        </h1>
+        <p class="text-slate-400 text-lg leading-relaxed mb-8 max-w-xl">
+          Find future dates, count days between dates, calculate your age, set countdown timers, and more. All calculations run instantly in your browser.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="#calculators" class="btn-primary text-base px-6 py-3">
+            Browse All Calculators
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="/date-calculator/" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold px-5 py-3 rounded-lg transition-colors">
+            Date Calculator →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats bar -->
+  <div class="bg-white border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {[
+          { val: '30+', label: 'Free calculators' },
+          { val: '500K+', label: 'Monthly users' },
+          { val: '100%', label: 'Browser-based' },
+          { val: '0', label: 'Signup required' },
+        ].map(({ val, label }) => (
+          <div class="text-center">
+            <div class="text-2xl font-extrabold text-navy-900">{val}</div>
+            <div class="text-xs text-slate-500 mt-0.5">{label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Calculator groups -->
+  <div id="calculators" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+    {calcGroups.map(group => (
+      <section key={group.label}>
+        <div class="mb-6">
+          <h2 class="text-xl font-extrabold text-navy-900 mb-1">{group.label}</h2>
+          <p class="text-slate-500 text-sm">{group.description}</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {group.items.map(item => (
+            <CalculatorCard
+              title={item.title}
+              description={item.description}
+              href={item.href}
+              icon={item.icon}
+              badge={item.badge}
+              volume={item.volume}
+            />
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <!-- Why DateCalc -->
+  <section class="bg-white border-t border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl font-extrabold text-navy-900 mb-2">Why DateCalc?</h2>
+        <p class="text-slate-500 max-w-xl mx-auto">Built for speed, accuracy, and simplicity. No clutter, no ads, no signup.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { icon: '⚡', title: 'Instant Results', desc: 'Every calculation happens in your browser. No loading, no waiting.' },
+          { icon: '🎯', title: 'Accurate', desc: 'Handles leap years, month lengths, and time zones correctly every time.' },
+          { icon: '🔒', title: 'Private', desc: 'No data is sent to any server. Your dates stay on your device.' },
+          { icon: '📱', title: 'Works Everywhere', desc: 'Fully responsive on mobile, tablet, and desktop.' },
+        ].map(({ icon, title, desc }) => (
+          <div key={title} class="text-center">
+            <div class="w-12 h-12 bg-brand-50 border border-brand-100 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">{icon}</div>
+            <h3 class="font-bold text-navy-900 mb-1.5">{title}</h3>
+            <p class="text-slate-500 text-sm">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

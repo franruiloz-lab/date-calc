@@ -1,0 +1,166 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const lastUpdated = 'April 6, 2026';
+const siteUrl = 'https://datecalc.com';
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Cookie Policy — DateCalc",
+    "description": "Cookie policy for DateCalc.com — what cookies we use, why, and how you can control them.",
+    "url": `${siteUrl}/cookie-policy/`,
+    "dateModified": "2026-04-06",
+    "isPartOf": { "@type": "WebSite", "name": "DateCalc", "url": siteUrl },
+    "inLanguage": "en",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
+      { "@type": "ListItem", "position": 2, "name": "Cookie Policy", "item": `${siteUrl}/cookie-policy/` },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Cookie Policy | DateCalc"
+  description="Cookie policy for DateCalc.com — what cookies we use, why we use them, and how you can control or disable them."
+  schema={schema}
+>
+  <div class="bg-white border-b border-slate-100">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <nav class="flex items-center gap-2 text-sm text-slate-500">
+        <a href="/" class="hover:text-brand-600 transition-colors">Home</a>
+        <span>›</span>
+        <span class="text-navy-900 font-medium">Cookie Policy</span>
+      </nav>
+    </div>
+  </div>
+
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-8">
+      <h1 class="text-3xl font-extrabold text-navy-900 mb-2">Cookie Policy</h1>
+      <p class="text-slate-500 text-sm">Last updated: {lastUpdated}</p>
+    </div>
+
+    <div class="space-y-8 text-slate-700 leading-relaxed">
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">1. What are cookies?</h2>
+        <p>
+          Cookies are small text files stored on your device when you visit a website. They allow sites to remember your preferences and understand how you use them.
+          DateCalc also uses browser <strong>localStorage</strong> — a similar technology that stores small amounts of data locally in your browser with no expiry date.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">2. How DateCalc uses cookies</h2>
+        <p>
+          DateCalc uses a minimal set of storage mechanisms to keep the site working and, with your consent, to understand how visitors use our tools.
+          We do not use advertising cookies, social media tracking, or sell any data to third parties.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">3. Types of cookies and storage we use</h2>
+
+        <h3 class="text-base font-bold text-navy-800 mt-5 mb-2">Strictly Necessary (localStorage)</h3>
+        <p class="text-sm mb-3">
+          These are required for the site to function correctly. They cannot be disabled. The only item stored is your cookie consent preference.
+        </p>
+        <table class="w-full text-sm border border-slate-200 rounded-xl overflow-hidden mb-4">
+          <thead class="bg-brand-50">
+            <tr>
+              <th class="text-left px-4 py-2.5 font-semibold text-slate-700">Name</th>
+              <th class="text-left px-4 py-2.5 font-semibold text-slate-700">Purpose</th>
+              <th class="text-left px-4 py-2.5 font-semibold text-slate-700">Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-slate-200">
+              <td class="px-4 py-2.5 font-mono text-slate-600 text-xs">datecalc_cookie_consent</td>
+              <td class="px-4 py-2.5">Stores your consent choice (accepted / rejected)</td>
+              <td class="px-4 py-2.5">Until you clear browser storage</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="text-base font-bold text-navy-800 mt-5 mb-2">Analytics Cookies (optional — requires consent)</h3>
+        <p class="text-sm mb-3">
+          If you click "Accept All", we load Google Analytics 4 to collect anonymized data about how visitors use DateCalc — which calculators are used most, how long people spend on pages, and where traffic comes from. This helps us improve the tools. No personally identifiable information is collected.
+        </p>
+        <table class="w-full text-sm border border-slate-200 rounded-xl overflow-hidden">
+          <thead class="bg-brand-50">
+            <tr>
+              <th class="text-left px-4 py-2.5 font-semibold text-slate-700">Name</th>
+              <th class="text-left px-4 py-2.5 font-semibold text-slate-700">Purpose</th>
+              <th class="text-left px-4 py-2.5 font-semibold text-slate-700">Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-slate-200">
+              <td class="px-4 py-2.5 font-mono text-slate-600 text-xs">_ga</td>
+              <td class="px-4 py-2.5">Google Analytics — distinguishes unique users</td>
+              <td class="px-4 py-2.5">2 years</td>
+            </tr>
+            <tr class="border-t border-slate-200">
+              <td class="px-4 py-2.5 font-mono text-slate-600 text-xs">_ga_*</td>
+              <td class="px-4 py-2.5">Google Analytics — stores session state</td>
+              <td class="px-4 py-2.5">2 years</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">4. Your choices</h2>
+        <p>
+          When you first visit DateCalc, a banner lets you choose between:
+        </p>
+        <ul class="list-disc pl-6 space-y-1.5 mt-3 text-sm">
+          <li><strong>Accept All</strong> — enables analytics cookies in addition to necessary storage.</li>
+          <li><strong>Necessary Only</strong> — only the consent preference is stored. No analytics.</li>
+        </ul>
+        <p class="mt-3">
+          You can change your preference at any time by clearing your browser's localStorage for datecalc.com, which will cause the banner to reappear on your next visit.
+          You can also manage cookies directly in your browser settings (Chrome: Settings → Privacy → Cookies; Firefox: Settings → Privacy → Cookies and Site Data).
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">5. Third-party cookies</h2>
+        <p>
+          DateCalc does not embed advertising, social media, or third-party tracking widgets. The only potential third-party cookie is Google Analytics, and only after your explicit consent. Google Analytics is configured with IP anonymization enabled.
+        </p>
+        <p class="mt-2">
+          For more information on how Google uses data, see <a href="https://policies.google.com/technologies/cookies" class="text-brand-600 hover:underline" target="_blank" rel="noopener noreferrer">Google's Cookie Policy</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">6. Updates to this policy</h2>
+        <p>
+          We may update this Cookie Policy periodically. When we do, the "last updated" date at the top will change. We encourage you to review this page occasionally.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-navy-900 mb-3">7. Contact</h2>
+        <p>
+          Questions about this Cookie Policy? Contact us at:<br/>
+          <a href="mailto:franruizlozano31@gmail.com" class="text-brand-600 hover:underline font-medium">franruizlozano31@gmail.com</a>
+        </p>
+      </section>
+
+    </div>
+
+    <div class="mt-10 pt-6 border-t border-slate-200 flex gap-4 text-sm">
+      <a href="/" class="text-brand-600 hover:underline">← Back to Home</a>
+      <a href="/privacy/" class="text-brand-600 hover:underline">Privacy Policy →</a>
+    </div>
+  </div>
+</BaseLayout>
