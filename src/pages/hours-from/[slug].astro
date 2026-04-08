@@ -57,7 +57,7 @@ const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": heading,
-  "url": `https://datecalc.com/hours-from/${Astro.params.slug}/`,
+  "url": `https://countingdate.com/hours-from/${Astro.params.slug}/`,
   "description": description,
   "applicationCategory": "UtilityApplication",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
@@ -65,7 +65,7 @@ const schema = {
 ---
 
 <CalculatorLayout
-  title={`${heading} — Exact Date & Time | DateCalc`}
+  title={`${heading} — Exact Date & Time | CountingDate`}
   description={description}
   heading={heading}
   subheading={`What date and time will it be ${hours} hours from now? The calculator below shows the exact result based on your current local time.`}

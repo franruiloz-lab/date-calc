@@ -3,7 +3,7 @@ import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  site: 'https://datecalc.com',
+  site: 'https://countingdate.com',
   integrations: [
     react(),
     tailwind(),

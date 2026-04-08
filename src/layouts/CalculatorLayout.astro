@@ -23,7 +23,7 @@ interface Props {
 
 const { title, description, heading, subheading, icon, category, breadcrumb, faqs = [], related = [], schema, tipTitle, tipText } = Astro.props;
 const breadcrumbLabel = breadcrumb ?? category ?? 'Date & Time';
-const siteUrl = 'https://datecalc.com';
+const siteUrl = 'https://countingdate.com';
 const pageUrl = `${siteUrl}${Astro.url.pathname}`;
 
 const breadcrumbSchema = {
@@ -53,7 +53,7 @@ const webPageSchema = {
   "name": heading,
   "description": description,
   "url": pageUrl,
-  "isPartOf": { "@type": "WebSite", "name": "DateCalc", "url": siteUrl },
+  "isPartOf": { "@type": "WebSite", "name": "CountingDate", "url": siteUrl },
   "inLanguage": "en",
   "breadcrumb": {
     "@type": "BreadcrumbList",

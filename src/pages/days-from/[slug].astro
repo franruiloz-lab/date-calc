@@ -135,7 +135,7 @@ const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": heading,
-  "url": `https://datecalc.com/days-from/${Astro.params.slug}/`,
+  "url": `https://countingdate.com/days-from/${Astro.params.slug}/`,
   "description": description,
   "applicationCategory": "UtilityApplication",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
@@ -143,7 +143,7 @@ const schema = {
 ---
 
 <CalculatorLayout
-  title={`${heading} — What Date Is It? | DateCalc`}
+  title={`${heading} — What Date Is It? | CountingDate`}
   description={description}
   heading={heading}
   subheading={isFuture

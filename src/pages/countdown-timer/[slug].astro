@@ -89,7 +89,7 @@ const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": heading,
-  "url": `https://datecalc.com/countdown-timer/${Astro.params.slug}/`,
+  "url": `https://countingdate.com/countdown-timer/${Astro.params.slug}/`,
   "description": description,
   "applicationCategory": "UtilityApplication",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
@@ -97,7 +97,7 @@ const schema = {
 ---
 
 <CalculatorLayout
-  title={`${heading} Countdown Timer | DateCalc`}
+  title={`${heading} Countdown Timer | CountingDate`}
   description={description}
   heading={heading}
   subheading={`Live countdown showing how many hours, minutes, and seconds until ${timeLabel} today. Resets automatically every day.`}

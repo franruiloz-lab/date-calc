@@ -13,8 +13,8 @@ interface Props {
 }
 
 const { title, description, canonical, ogImage, schema } = Astro.props;
-const siteUrl = 'https://datecalc.com';
-const fullTitle = title.includes('DateCalc') ? title : `${title} | DateCalc`;
+const siteUrl = 'https://countingdate.com';
+const fullTitle = title.includes('CountingDate') ? title : `${title} | CountingDate`;
 const ogImg = ogImage || `${siteUrl}/og-default.png`;
 const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 ---
@@ -33,7 +33,7 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <meta property="og:image" content={ogImg} />
     <meta property="og:url" content={canonical || `${siteUrl}${Astro.url.pathname}`} />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="DateCalc" />
+    <meta property="og:site_name" content="CountingDate" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
@@ -47,7 +47,7 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "DateCalc",
+      "name": "CountingDate",
       "url": siteUrl,
       "description": "Free date and time calculators — days from today, countdown timers, age calculator, and more.",
       "potentialAction": {
@@ -59,7 +59,7 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "DateCalc",
+      "name": "CountingDate",
       "url": siteUrl,
       "logo": { "@type": "ImageObject", "url": `${siteUrl}/favicon.svg` },
       "description": "Free date and time calculators for everyone.",

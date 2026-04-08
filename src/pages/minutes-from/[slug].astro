@@ -55,7 +55,7 @@ const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": heading,
-  "url": `https://datecalc.com/minutes-from/${Astro.params.slug}/`,
+  "url": `https://countingdate.com/minutes-from/${Astro.params.slug}/`,
   "description": description,
   "applicationCategory": "UtilityApplication",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
@@ -63,7 +63,7 @@ const schema = {
 ---
 
 <CalculatorLayout
-  title={`${heading} — What Time Will It Be? | DateCalc`}
+  title={`${heading} — What Time Will It Be? | CountingDate`}
   description={description}
   heading={heading}
   subheading={`What time will it be in ${minutes} minutes from now? The calculator shows the exact result based on your current local time.`}

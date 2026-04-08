@@ -1,6 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import DateCalc from '../components/calculators/DateCalc';
+import DateCalcComp from '../components/calculators/DateCalc';
 
 const faqs = [
   { q: 'How do I add days to a date?', a: 'Enter your start date, select "Add Time," type the number of days you want to add, and click Calculate. The result shows the future date along with the number of business days, weeks, and more.' },
@@ -21,7 +21,7 @@ const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "Date Calculator",
-  "url": "https://datecalc.com/date-calculator/",
+  "url": "https://countingdate.com/date-calculator/",
   "description": "Free date calculator to add or subtract days, weeks, months, and years from any date. Shows business days, calendar days, and the result weekday.",
   "applicationCategory": "UtilityApplication",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
@@ -29,7 +29,7 @@ const schema = {
 ---
 
 <CalculatorLayout
-  title="Date Calculator — Add or Subtract Days, Weeks, Months | DateCalc"
+  title="Date Calculator — Add or Subtract Days, Weeks, Months | CountingDate"
   description="Free date calculator: add or subtract days, weeks, months, or years from any date. Instantly see the result date, weekday, business days, and time conversions."
   heading="Date Calculator"
   subheading="Add or subtract any combination of years, months, weeks, and days from any starting date. See the result date, weekday, and business day count instantly."
@@ -42,7 +42,7 @@ const schema = {
   tipText="Use this calculator for contract deadlines (Net 30/60/90), project timelines, legal notice periods, and subscription renewals."
 >
   <div slot="calculator">
-    <DateCalc client:load />
+    <DateCalcComp client:load />
   </div>
 
   <div slot="content">

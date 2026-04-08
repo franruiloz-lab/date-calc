@@ -36,7 +36,7 @@ function countBusinessDays(start: Date, end: Date) {
   return count;
 }
 
-export default function DateCalc() {
+export default function CountingDate() {
   const today = new Date();
   const pad = (n: number) => String(n).padStart(2, '0');
   const todayStr = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
