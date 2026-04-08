@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://countingdate.com/sitemap.xml

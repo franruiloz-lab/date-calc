@@ -1,0 +1,41 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0f172a"/>
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#6366f1" stroke-width="0.4" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <!-- Accent bar -->
+  <rect x="0" y="0" width="8" height="630" fill="#6366f1"/>
+  <!-- Clock icon circle -->
+  <circle cx="160" cy="315" r="80" fill="none" stroke="#6366f1" stroke-width="3" opacity="0.4"/>
+  <circle cx="160" cy="315" r="60" fill="#1e293b" stroke="#4f46e5" stroke-width="2"/>
+  <circle cx="160" cy="315" r="4" fill="#818cf8"/>
+  <!-- Clock hands -->
+  <line x1="160" y1="315" x2="160" y2="280" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <line x1="160" y1="315" x2="182" y2="315" stroke="#818cf8" stroke-width="3" stroke-linecap="round"/>
+  <!-- Hour marks -->
+  <line x1="160" y1="258" x2="160" y2="268" stroke="#818cf8" stroke-width="2"/>
+  <line x1="160" y1="362" x2="160" y2="372" stroke="#818cf8" stroke-width="2"/>
+  <line x1="103" y1="315" x2="113" y2="315" stroke="#818cf8" stroke-width="2"/>
+  <line x1="207" y1="315" x2="217" y2="315" stroke="#818cf8" stroke-width="2"/>
+  <!-- Brand name -->
+  <text x="280" y="290" font-family="Inter, system-ui, sans-serif" font-size="72" font-weight="800" fill="white" letter-spacing="-2">Counting</text>
+  <text x="280" y="290" font-family="Inter, system-ui, sans-serif" font-size="72" font-weight="800" fill="white" letter-spacing="-2">
+    <tspan fill="white">Counting</tspan><tspan fill="#818cf8">Date</tspan>
+  </text>
+  <!-- Tagline -->
+  <text x="280" y="355" font-family="Inter, system-ui, sans-serif" font-size="28" fill="#94a3b8" letter-spacing="0">Free date &amp; time calculators — instant results</text>
+  <!-- Pills -->
+  <rect x="280" y="400" width="180" height="40" rx="20" fill="#1e293b" stroke="#4f46e5" stroke-width="1"/>
+  <text x="370" y="425" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#818cf8" text-anchor="middle">Days From Today</text>
+  <rect x="476" y="400" width="170" height="40" rx="20" fill="#1e293b" stroke="#4f46e5" stroke-width="1"/>
+  <text x="561" y="425" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#818cf8" text-anchor="middle">Countdown Timer</text>
+  <rect x="662" y="400" width="150" height="40" rx="20" fill="#1e293b" stroke="#4f46e5" stroke-width="1"/>
+  <text x="737" y="425" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#818cf8" text-anchor="middle">Age Calculator</text>
+  <!-- URL -->
+  <text x="600" y="580" font-family="Inter, system-ui, sans-serif" font-size="22" fill="#475569" text-anchor="middle">countingdate.com</text>
+</svg>
